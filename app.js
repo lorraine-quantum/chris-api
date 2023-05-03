@@ -45,7 +45,7 @@ app.use(
 app.use(express.json());
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://binaryoptionsai.com']
+  origin: ['http://localhost:5173', 'https://chris-admin.vercel.app', 'http://localhost:3000', 'https://binaryoptionsai.com']
 }));
 app.use(xss());
 
