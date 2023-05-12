@@ -10,7 +10,6 @@ const addTransaction = async (req, res) => {
     if (req.body.amount * 1 !== req.body.amount) {
       throw new BadRequest('Amount has to be a number')
     }
-    console.log((req.body.amount * 1 === req.body.amount))
     uniqueId++
     let day = new Date().getDate()
     let month = new Date().getMonth()
@@ -30,7 +29,6 @@ const addTransaction = async (req, res) => {
     await User.findOneAndUpdate({ _id: req.decoded.id }, { pendBalance: user.pendBalance + req.body.amount }, { new: true })
     const newTransaction = await Transaction.create(req.body)
     const getPopulated = await Transaction.findOne({ _id: newTransaction._id }).populate({ path: "owner", model: "user" });
-    console.log(req.body.amount, user.totalDeposit)
     res.status(StatusCodes.CREATED).json(getPopulated);
     console.log(req.decoded.name)
   } catch (error) {
@@ -211,7 +209,6 @@ const adminEditSingleTransaction = async (req, res) => {
       res.status(StatusCodes.OK).json(finalTransactionEdit);
     }
     if (req.body.status == 'failed') {
-      console.log(req.body.status)
       await User.findOneAndUpdate(
         { email: singleTransaction.owner.email },
         {

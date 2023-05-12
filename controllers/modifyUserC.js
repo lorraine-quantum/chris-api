@@ -15,7 +15,6 @@ const editUser = async (req, res) => {
         message: "email and password are immutable"
       })
     }
-    console.log(req.body)
     const ownerId = req.decoded.id;
     const edited = await User.findOneAndUpdate(
       {

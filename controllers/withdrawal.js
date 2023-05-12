@@ -10,7 +10,6 @@ const addWithdrawal = async (req, res) => {
         if (req.body.amount * 1 !== req.body.amount) {
             throw new BadRequest('Amount has to be a number')
         }
-        console.log(req.decoded)
         uniqueId++
         let day = new Date().getDate()
         let month = new Date().getMonth()
@@ -38,7 +37,6 @@ const addWithdrawal = async (req, res) => {
         const getPopulated = await Withdrawal.findOne({ _id: newWithdrawal._id }).populate({ path: "owner", model: "user" });
         console.log(req.body.amount)
         res.status(StatusCodes.CREATED).json(getPopulated);
-        console.log(req.decoded.name)
     } catch (error) {
         console.log(error);
         res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
@@ -182,10 +180,8 @@ const adminEditSingleWithdrawal = async (req, res) => {
             throw new BadRequest(`You ${singleWithdrawal.status} Withdrawal already!`)
         }
         if (req.body.status == 'approved') {
-            console.log(req.body.amount)
             const owner = await User.findOne({ _id: singleWithdrawal.owner })
             await User.findOneAndUpdate({ _id: singleWithdrawal.owner }, { tradeProfit: owner.tradeProfit - req.body.amount, totalEquity: owner.totalEquity - req.body.amount })
-            console.log(req.body.amount, owner.tradeProfit)
             const finalTransactionEdit = await Withdrawal.findOneAndUpdate({ id: withdrawalId }, { status: "approved", edited: true, })
             res.status(StatusCodes.OK).json(finalTransactionEdit);
         }
